@@ -8,19 +8,22 @@
   "editor.detectIndentation": true,
   "editor.renderIndentGuides": true,
   "terminal.integrated.fontSize": 15,
-  "terminal.integrated.fontFamily": "Monaco",
+  "terminal.integrated.fontFamily": "Fira Code",
   "terminal.integrated.scrollback": 1000,
   "editor.scrollBeyondLastLine": false,
-  "workbench.colorTheme": "Eagle Oceanic Next",
+  "files.insertFinalNewline": true,
+  "workbench.colorTheme": "Hybrid Next",
   "editor.formatOnPaste": true,
   "editor.fontLigatures": true,
   "editor.fontFamily": "Fira Code",
+  "editor.fontWeight": "500",
   "window.zoomLevel": 1,
   "workbench.editor.closeOnFileDelete": true,
   "workbench.colorCustomizations": {
-    "activityBar.background": "#1B2B34",
-    "sideBar.background": "#1B2B34"
+    "activityBar.background": "#242e33",
+    "sideBar.background": "#242e33"
   },
+  "editor.renderWhitespace": "boundary",
   "workbench.editor.showTabs": true,
   "workbench.startupEditor": "newUntitledFile",
   "typescript.check.npmIsInstalled": false
