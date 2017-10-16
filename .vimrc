@@ -16,6 +16,9 @@ syntax enable
 " colorscheme OceanicNext
 set background=dark
 colorscheme hybrid
+" colorscheme solarized
+
+let g:solarized_termcolors=256
 
 if has("gui_running")
   set macligatures
