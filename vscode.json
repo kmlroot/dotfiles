@@ -12,19 +12,78 @@
   "terminal.integrated.scrollback": 1000,
   "editor.scrollBeyondLastLine": false,
   "files.insertFinalNewline": true,
-  "workbench.colorTheme": "Hybrid Next",
+  "workbench.colorTheme": "Tomorrow Night",
   "editor.formatOnPaste": true,
   "editor.fontLigatures": true,
   "editor.fontFamily": "Fira Code",
   "editor.fontWeight": "500",
   "window.zoomLevel": 1,
   "workbench.editor.closeOnFileDelete": true,
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#242e33",
-    "sideBar.background": "#242e33"
-  },
+  //"workbench.colorCustomizations": {
+    //"activityBar.background": "#073642",
+    //"sideBar.background": "#073642"
+  //},
   "editor.renderWhitespace": "boundary",
   "workbench.editor.showTabs": true,
   "workbench.startupEditor": "newUntitledFile",
-  "typescript.check.npmIsInstalled": false
+  "typescript.check.npmIsInstalled": false,
+  "extensions.ignoreRecommendations": true,
+  "vim.disableAnnoyingNeovimMessage": true,
+  "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "j"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "vim.otherModesKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "d"
+      ],
+      "after": [
+        "d",
+        "d"
+      ]
+    },
+    {
+      "before": [
+        "<C-n>"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": ":nohl"
+        }
+      ]
+    }
+  ],
+  "vim.leader": "<space>",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false
+  },
+  "vim.autoindent": true,
+  "vim.overrideCopy": true,
+  "vim.searchHighlightColor": "rgba(150, 150, 255, 0.3)",
+  "gitlens.advanced.messages": {
+    "suppressCommitHasNoPreviousCommitWarning": false,
+    "suppressCommitNotFoundWarning": false,
+    "suppressFileNotUnderSourceControlWarning": false,
+    "suppressGitVersionWarning": false,
+    "suppressLineUncommittedWarning": false,
+    "suppressNoRepositoryWarning": false,
+    "suppressUpdateNotice": true,
+    "suppressWelcomeNotice": true
+  }
 }
