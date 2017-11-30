@@ -15,8 +15,18 @@ endif
 syntax enable
 " colorscheme OceanicNext
 set background=dark
-colorscheme hybrid
+" set background=light
+" colorscheme hybrid
 " colorscheme solarized
+" colorscheme solarized8_dark
+" colorscheme base16-solarized-light
+colorscheme base16-tomorrow-night
+" colorscheme base16-tomorrow
+" colorscheme base16-flat
+" colorscheme base16-material
+" colorscheme base16-ocean
+" colorscheme base16-oceanicnext
+
 
 let g:solarized_termcolors=256
 
@@ -37,6 +47,7 @@ filetype off
 call vundle#begin()
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'fatih/vim-go'
+" Plugin 'w0rp/ale'
 Plugin 'pangloss/vim-javascript'
 Plugin 'rust-lang/rust.vim'
 Plugin 'jiangmiao/auto-pairs'
@@ -46,6 +57,7 @@ Plugin 'slim-template/vim-slim.git'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'rstacruz/sparkup'
 Plugin 'tpope/vim-rails'
+Plugin 'editorconfig/editorconfig-vim'
 Plugin 'kristijanhusak/vim-hybrid-material'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'kchmck/vim-coffee-script'
@@ -64,6 +76,9 @@ Plugin 'mxw/vim-jsx'
 Plugin 'digitaltoad/vim-pug'
 Plugin 'vim-airline/vim-airline'
 call vundle#end()
+
+" autocmd bufwritepost *.js silent !standard --fix %
+" set autoread
 
 let g:indent_guides_start_level=2
 
@@ -169,6 +184,7 @@ set expandtab
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·,nbsp:·
+" set list listchars=tab:·,trail:·,nbsp:·
 
 " Use one space, not two, after punctuation.
 set nojoinspaces
