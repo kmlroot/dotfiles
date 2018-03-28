@@ -1,32 +1,105 @@
 set encoding=utf8
 set clipboard=unnamed
 set guifont=Fira_Code:h15
-" set guifont=Inconsolata-dz\ for\ Powerline\:h18
-" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
 set rtp+=~/.vim/bundle/Vundle.vim
 set t_Co=256
-
-" set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
-" set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
 
 if (has("termguicolors"))
   set termguicolors
 endif
+
 syntax enable
-" colorscheme OceanicNext
 set background=dark
 " set background=light
 " colorscheme hybrid
-" colorscheme solarized
 " colorscheme solarized8_dark
-" colorscheme base16-solarized-light
 colorscheme base16-tomorrow-night
-" colorscheme base16-tomorrow
-" colorscheme base16-flat
-" colorscheme base16-material
-" colorscheme base16-ocean
-" colorscheme base16-oceanicnext
+" colorscheme jellybeans
+" colorscheme molokai
+" colorscheme apprentice
 
+" General {
+  syntax enable                  " syntax highlighting
+  filetype plugin indent on  " automatically detect file types
+  set mouse=a                " automatically enable mouse usage
+  set mousehide              " hide the mouse cursor while typing
+  set encoding=utf-8
+  scriptencoding utf-8
+  set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+
+  if has ('x') && has ('gui') " on Linux use + register for copy-paste
+    set clipboard=unnamedplus
+  elseif has ('gui') " one mac and windows, use * register for copy-paste
+    set clipboard=unnamed
+  endif
+
+  set shortmess+=filmnrxoOtT      " abbrev. of messages (avoids 'hit enter')
+  set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
+  set virtualedit=onemore         " allow for cursor beyond last character
+  set history=800                 " Store a ton of history (default is 20)
+  set hidden                      " allow buffer switching without saving
+  set viminfo^=%                  " Remember info about open buffers on close
+  set ttyfast                     " this is the 21st century, people
+"set autochdir                   " change directory to the current window
+
+let loaded_matchparen = 1 " this should fix issue with long lines
+" }
+
+" Formatting {
+  set nowrap                      " wrap long lines
+  set autoindent                  " indent at the same level of the previous line
+  set expandtab                   " tabs are spaces, not tabs
+  set shiftwidth=2                " use indents of 2 spaces
+  set tabstop=2                   " an indentation every two columns
+  set softtabstop=2               " let backspace delete indent
+  set diffopt+=iwhite,vertical    " ignore the difference of indents
+  set matchpairs=(:),{:},[:],<:>
+  set foldmethod=marker
+  set colorcolumn=110
+" }
+
+  if has('statusline')
+    set laststatus=2
+  endif
+
+  set numberwidth=4               " set the width of line number gutter column
+  set linespace=2                 " set spaces between rows
+  set ignorecase                  " case insensitive search
+  set backspace=indent,eol,start  " backspace for dummies
+  set smartcase                   " case sensitive when uc present
+  set showmatch                   " show matching brackets/parenthesis
+  set hlsearch                    " highlight search terms
+  set incsearch                   " find as you type search
+  set wildmenu                    " show list instead of just completing
+  set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all
+  set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
+  set scrolljump=5                " lines to scroll when cursor leaves screen
+  set scrolloff=3                 " minimum lines to keep above and below cursor
+  set foldenable                  " auto fold code
+  set cursorline                  " highlight current line
+  set anti                        " make text pretty
+
+  " vimScript {
+    let g:html_indent_inctags = 'html,body,head,tbody'
+    let g:html_indent_script1 = 'inc'
+    let g:html_indent_style1 = 'inc'
+  " }
+
+  " go {
+    let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
+    set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
+    source ~/.vim/conf/go.vim
+    " General
+    "  au FileType go setlocal noexpandtab
+    "  au FileType go setlocal ts=3
+    "  au FileType go setlocal sw=3
+    "  let g:indent_guides_enable_on_vim_startup = 0
+
+    "godef
+    "  let g:godef_split=0
+    "  au FileType go let g:godef_same_file_in_same_window = 0
+
+  " }
 
 let g:solarized_termcolors=256
 
@@ -45,42 +118,48 @@ imap <C-v> <ESC>"+pa
 filetype off
 
 call vundle#begin()
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'fatih/vim-go'
-" Plugin 'w0rp/ale'
-Plugin 'pangloss/vim-javascript'
-Plugin 'rust-lang/rust.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'slashmili/alchemist.vim'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'slim-template/vim-slim.git'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'rstacruz/sparkup'
-Plugin 'tpope/vim-rails'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'kristijanhusak/vim-hybrid-material'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'tpope/vim-fugitive'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'mhinz/vim-signify'
-Plugin 'isRuslan/vim-es6'
-Plugin 'rizzatti/dash.vim'
-Plugin 'tpope/vim-commentary'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'mxw/vim-jsx'
-Plugin 'digitaltoad/vim-pug'
-Plugin 'vim-airline/vim-airline'
+  Plugin 'hashivim/vim-terraform'
+  Plugin 'elixir-lang/vim-elixir'
+  Plugin 'tomlion/vim-solidity'
+  Plugin 'fatih/vim-go'
+  Plugin 'elzr/vim-json'
+  Plugin 'pangloss/vim-javascript'
+  Plugin 'rust-lang/rust.vim'
+  Plugin 'jiangmiao/auto-pairs'
+  Plugin 'slashmili/alchemist.vim'
+  Plugin 'derekwyatt/vim-scala'
+  Plugin 'slim-template/vim-slim.git'
+  Plugin 'vim-ruby/vim-ruby'
+  Plugin 'rstacruz/sparkup'
+  Plugin 'tpope/vim-rails'
+  Plugin 'editorconfig/editorconfig-vim'
+  Plugin 'kristijanhusak/vim-hybrid-material'
+  Plugin 'VundleVim/Vundle.vim'
+  Plugin 'kchmck/vim-coffee-script'
+  Plugin 'scrooloose/nerdtree'
+  Plugin 'majutsushi/tagbar'
+  Plugin 'tpope/vim-fugitive'
+  Plugin 'ctrlpvim/ctrlp.vim'
+  Plugin 'scrooloose/syntastic'
+  Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+  Plugin 'mhinz/vim-signify'
+  Plugin 'isRuslan/vim-es6'
+  Plugin 'rizzatti/dash.vim'
+  Plugin 'tpope/vim-commentary'
+  Plugin 'terryma/vim-multiple-cursors'
+  Plugin 'mxw/vim-jsx'
+  Plugin 'digitaltoad/vim-pug'
+  Plugin 'vim-airline/vim-airline'
+  Plugin 'nathanaelkane/vim-indent-guides'
+  Plugin 'Valloric/MatchTagAlways'
 call vundle#end()
 
 " autocmd bufwritepost *.js silent !standard --fix %
 " set autoread
 
+let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level=2
+let g:indent_guides_guide_size = 2
 
 let g:Powerline_symbols = 'fancy'
 
@@ -183,76 +262,27 @@ set shiftround
 set expandtab
 
 " Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
-" set list listchars=tab:·,trail:·,nbsp:·
 
 " Use one space, not two, after punctuation.
 set nojoinspaces
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
-  " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag -Q -l --nocolor --hidden -g "" %s'
-
-  " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
-
-" Make it obvious where 80 characters is
 
 " Numbers
 set number
 set numberwidth=5
 
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-set wildmode=list:longest,list:full
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <S-Tab> <c-n>
-
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
-
-" Get off my lawn
-noremap ; l
-noremap l k
-noremap k j
-noremap j h
-
-" vim-test mappings
-nnoremap <silent> <Leader>t :TestFile<CR>
-nnoremap <silent> <Leader>s :TestNearest<CR>
-nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>a :TestSuite<CR>
-nnoremap <silent> <leader>gt :TestVisit<CR>
-
-" Run commands that require an interactive shell
-nnoremap <Leader>r :RunInInteractiveShell<space>
-
-" Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-
-" Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
 
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=1
@@ -260,8 +290,8 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 let g:syntastic_eruby_ruby_quiet_messages =
     \ {"regex": "possibly useless use of a variable in void context"}
 
-set ignorecase
-set tags=./tags,tags;$HOME
+" set ignorecase
+" set tags=./tags,tags;$HOME
 let NERDTreeShowHidden=1
 set cursorline
 let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
