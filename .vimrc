@@ -13,8 +13,8 @@ set background=dark
 " set background=light
 " colorscheme hybrid
 " colorscheme solarized8_dark
-colorscheme base16-tomorrow-night
-" colorscheme jellybeans
+" colorscheme base16-tomorrow-night
+colorscheme jellybeans
 " colorscheme molokai
 " colorscheme apprentice
 
@@ -79,28 +79,6 @@ let loaded_matchparen = 1 " this should fix issue with long lines
   set cursorline                  " highlight current line
   set anti                        " make text pretty
 
-  " vimScript {
-    let g:html_indent_inctags = 'html,body,head,tbody'
-    let g:html_indent_script1 = 'inc'
-    let g:html_indent_style1 = 'inc'
-  " }
-
-  " go {
-    let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
-    set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
-    source ~/.vim/conf/go.vim
-    " General
-    "  au FileType go setlocal noexpandtab
-    "  au FileType go setlocal ts=3
-    "  au FileType go setlocal sw=3
-    "  let g:indent_guides_enable_on_vim_startup = 0
-
-    "godef
-    "  let g:godef_split=0
-    "  au FileType go let g:godef_same_file_in_same_window = 0
-
-  " }
-
 let g:solarized_termcolors=256
 
 if has("gui_running")
@@ -124,18 +102,14 @@ call vundle#begin()
   Plugin 'fatih/vim-go'
   Plugin 'elzr/vim-json'
   Plugin 'pangloss/vim-javascript'
-  Plugin 'rust-lang/rust.vim'
   Plugin 'jiangmiao/auto-pairs'
   Plugin 'slashmili/alchemist.vim'
-  Plugin 'derekwyatt/vim-scala'
-  Plugin 'slim-template/vim-slim.git'
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'rstacruz/sparkup'
   Plugin 'tpope/vim-rails'
   Plugin 'editorconfig/editorconfig-vim'
   Plugin 'kristijanhusak/vim-hybrid-material'
   Plugin 'VundleVim/Vundle.vim'
-  Plugin 'kchmck/vim-coffee-script'
   Plugin 'scrooloose/nerdtree'
   Plugin 'majutsushi/tagbar'
   Plugin 'tpope/vim-fugitive'
@@ -148,7 +122,6 @@ call vundle#begin()
   Plugin 'tpope/vim-commentary'
   Plugin 'terryma/vim-multiple-cursors'
   Plugin 'mxw/vim-jsx'
-  Plugin 'digitaltoad/vim-pug'
   Plugin 'vim-airline/vim-airline'
   Plugin 'nathanaelkane/vim-indent-guides'
   Plugin 'Valloric/MatchTagAlways'
@@ -295,5 +268,3 @@ let g:syntastic_eruby_ruby_quiet_messages =
 let NERDTreeShowHidden=1
 set cursorline
 let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
-
-let g:rustfmt_autosave = 1
