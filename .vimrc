@@ -1,20 +1,25 @@
 set encoding=utf8
 set clipboard=unnamed
-set guifont=Fira_Code:h15
+set guifont=Consolas:h15
 set rtp+=~/.vim/bundle/Vundle.vim
-set t_Co=256
 
-if (has("termguicolors"))
-  set termguicolors
-endif
+" if (has("termguicolors"))
+"  set termguicolors
+" endif
 
-syntax enable
+set term=screen-256color
+
+" set termguicolors
 set background=dark
+set t_Co=256
+syntax enable
+" set background=dark
 " set background=light
 " colorscheme hybrid
 " colorscheme solarized8_dark
 " colorscheme base16-tomorrow-night
-colorscheme jellybeans
+" colorscheme jellybeans
+colorscheme cobalt2
 " colorscheme molokai
 " colorscheme apprentice
 
@@ -76,7 +81,8 @@ let loaded_matchparen = 1 " this should fix issue with long lines
   set scrolljump=5                " lines to scroll when cursor leaves screen
   set scrolloff=3                 " minimum lines to keep above and below cursor
   set foldenable                  " auto fold code
-  set cursorline                  " highlight current line
+  set cursorline
+  hi CursorLine term=bold cterm=bold guibg=Grey50
   set anti                        " make text pretty
 
 let g:solarized_termcolors=256
@@ -115,7 +121,6 @@ call vundle#begin()
   Plugin 'tpope/vim-fugitive'
   Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'scrooloose/syntastic'
-  Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
   Plugin 'mhinz/vim-signify'
   Plugin 'isRuslan/vim-es6'
   Plugin 'rizzatti/dash.vim'
@@ -125,7 +130,155 @@ call vundle#begin()
   Plugin 'vim-airline/vim-airline'
   Plugin 'nathanaelkane/vim-indent-guides'
   Plugin 'Valloric/MatchTagAlways'
+  Plugin 'w0rp/ale'
+  Plugin 'leafgarland/typescript-vim'
+  Plugin 'Valloric/YouCompleteMe'
+  Plugin 'tpope/vim-surround'
+  Plugin 'derekwyatt/vim-scala'
+  Plugin 'MarcWeber/vim-addon-mw-utils'
+  Plugin 'tomtom/tlib_vim'
+  Plugin 'garbas/vim-snipmate'
+  Plugin 'grvcoelho/vim-javascript-snippets'
 call vundle#end()
+
+let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
+
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+
+" NERDTree
+" Open nerdtree by default
+" au VimEnter *  NERDTree
+
+nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+let NERDTreeQuitOnOpen = 1
+
+" autocmd VimEnter * nested :call tagbar#autoopen(1)
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+let g:alchemist_tag_map = '<C-]>'
+let g:alchemist_tag_stack_map = '<C-T>'
+
+let g:tagbar_type_rust = {
+    \ 'ctagstype' : 'rust',
+    \ 'kinds' : [
+        \'T:types,type definitions',
+        \'f:functions,function definitions',
+        \'g:enum,enumeration names',
+        \'s:structure names',
+        \'m:modules,module names',
+        \'c:consts,static constants',
+        \'t:traits',
+        \'i:impls,trait implementations',
+    \]
+    \}
+
+let g:tagbar_type_scala = {
+    \ 'ctagstype' : 'scala',
+    \ 'sro'       : '.',
+    \ 'kinds'     : [
+      \ 'p:packages',
+      \ 'T:types:1',
+      \ 't:traits',
+      \ 'o:objects',
+      \ 'O:case objects',
+      \ 'c:classes',
+      \ 'C:case classes',
+      \ 'm:methods',
+      \ 'V:values:1',
+      \ 'v:variables:1'
+    \ ]
+\ }
+
+let g:tagbar_type_go = {
+    \ 'ctagstype': 'go',
+    \ 'kinds' : [
+        \'p:package',
+        \'f:function',
+        \'v:variables',
+        \'t:type',
+        \'c:const'
+    \]
+\}
+
+let g:tagbar_type_elixir = {
+    \ 'ctagstype' : 'elixir',
+    \ 'kinds' : [
+        \ 'f:functions',
+        \ 'functions:functions',
+        \ 'c:callbacks',
+        \ 'd:delegates',
+        \ 'e:exceptions',
+        \ 'i:implementations',
+        \ 'a:macros',
+        \ 'o:operators',
+        \ 'm:modules',
+        \ 'p:protocols',
+        \ 'r:records',
+        \ 't:tests'
+    \ ]
+\ }
+
+let g:tagbar_type_css = {
+\ 'ctagstype' : 'Css',
+    \ 'kinds'     : [
+        \ 'c:classes',
+        \ 's:selectors',
+        \ 'i:identities'
+    \ ]
+\ }
+
+if !exists('g:tagbar_javascript_ctags_bin')
+    let g:tagbar_javascript_ctags_bin = 'esctags'
+endif
+
+if !exists('g:tagbar_javascript_ctags_memory_limit')
+    let g:tagbar_javascript_ctags_memory_limit = '128M'
+endif
+
+let g:tagbar_type_javascript = {
+    \ 'ctagstype' : 'JavaScript',
+    \ 'kinds'     : [
+        \ 'o:objects',
+        \ 'f:functions',
+        \ 'a:arrays',
+        \ 's:strings'
+    \ ]
+\ }
+
+nnoremap ,gl :YcmCompleter GoToDeclaration<CR>
+
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_max_num_candidates = 15
+let g:ycm_max_num_identifier_candidates = 10
+let g:ycm_auto_trigger = 0
+
+let g:ycm_rust_src_path = '/usr/local/rust/rust-1.29.2/src'
+let g:ycm_gocode_binary_path = "$GOPATH/bin/gocode"
+let g:ycm_godef_binary_path = "$GOPATH/bin/godef"
+
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
+let NERDTreeShowBookmarks=1
+let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let NERDTreeChDirMode=0
+let NERDTreeQuitOnOpen=0
+let NERDTreeMouseMode=2
+let NERDTreeShowHidden=1
+let NERDTreeKeepTreeInNewTab=1
+let g:nerdtree_tabs_open_on_gui_startup=1
+let g:nerdtree_tabs_open_on_console_startup=1
+
+" In ~/.vim/ftplugin/javascript.vim, or somewhere similar.
+
+" Fix files with prettier, and then ESLint.
+let b:ale_fixers = ['prettier', 'standard']
+" Equivalent to the above.
+let b:ale_fixers = {'javascript': ['prettier', 'standard']}
+
+" Enable completion where available.
+let g:ale_completion_enabled = 1
 
 " autocmd bufwritepost *.js silent !standard --fix %
 " set autoread
@@ -266,5 +419,5 @@ let g:syntastic_eruby_ruby_quiet_messages =
 " set ignorecase
 " set tags=./tags,tags;$HOME
 let NERDTreeShowHidden=1
-set cursorline
+" set cursorline
 let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
