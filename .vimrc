@@ -3,28 +3,21 @@ set clipboard=unnamed
 set guifont=Consolas:h15
 set rtp+=~/.vim/bundle/Vundle.vim
 
-" if (has("termguicolors"))
-"  set termguicolors
-" endif
-
-set term=screen-256color
+" set term=screen-256color
 
 " set termguicolors
 set background=dark
 set t_Co=256
 syntax enable
-" set background=dark
-" set background=light
-" colorscheme hybrid
-" colorscheme solarized8_dark
-" colorscheme base16-tomorrow-night
-" colorscheme jellybeans
-colorscheme cobalt2
-" colorscheme molokai
-" colorscheme apprentice
+set wrap
+
+colorscheme hybrid_material
+let g:dracula_colorterm = 0
+let g:dracula_italic = 0
+highlight Normal ctermbg=None
 
 " General {
-  syntax enable                  " syntax highlighting
+  syntax enable              " syntax highlighting
   filetype plugin indent on  " automatically detect file types
   set mouse=a                " automatically enable mouse usage
   set mousehide              " hide the mouse cursor while typing
@@ -45,7 +38,6 @@ colorscheme cobalt2
   set hidden                      " allow buffer switching without saving
   set viminfo^=%                  " Remember info about open buffers on close
   set ttyfast                     " this is the 21st century, people
-"set autochdir                   " change directory to the current window
 
 let loaded_matchparen = 1 " this should fix issue with long lines
 " }
@@ -82,8 +74,8 @@ let loaded_matchparen = 1 " this should fix issue with long lines
   set scrolloff=3                 " minimum lines to keep above and below cursor
   set foldenable                  " auto fold code
   set cursorline
-  hi CursorLine term=bold cterm=bold guibg=Grey50
-  set anti                        " make text pretty
+  hi CursorLine term=bold cterm=bold guibg=Grey30
+  " set anti                        " make text pretty
 
 let g:solarized_termcolors=256
 
@@ -102,19 +94,18 @@ imap <C-v> <ESC>"+pa
 filetype off
 
 call vundle#begin()
+  Plugin 'skywind3000/asyncrun.vim'
+  Plugin 'jparise/vim-graphql'
+  Plugin 'Quramy/tsuquyomi'
   Plugin 'hashivim/vim-terraform'
   Plugin 'elixir-lang/vim-elixir'
-  Plugin 'tomlion/vim-solidity'
   Plugin 'fatih/vim-go'
   Plugin 'elzr/vim-json'
   Plugin 'pangloss/vim-javascript'
   Plugin 'jiangmiao/auto-pairs'
   Plugin 'slashmili/alchemist.vim'
-  Plugin 'vim-ruby/vim-ruby'
   Plugin 'rstacruz/sparkup'
-  Plugin 'tpope/vim-rails'
   Plugin 'editorconfig/editorconfig-vim'
-  Plugin 'kristijanhusak/vim-hybrid-material'
   Plugin 'VundleVim/Vundle.vim'
   Plugin 'scrooloose/nerdtree'
   Plugin 'majutsushi/tagbar'
@@ -135,11 +126,28 @@ call vundle#begin()
   Plugin 'Valloric/YouCompleteMe'
   Plugin 'tpope/vim-surround'
   Plugin 'derekwyatt/vim-scala'
-  Plugin 'MarcWeber/vim-addon-mw-utils'
-  Plugin 'tomtom/tlib_vim'
-  Plugin 'garbas/vim-snipmate'
-  Plugin 'grvcoelho/vim-javascript-snippets'
+  Plugin 'airblade/vim-gitgutter'
+  Plugin 'mattn/emmet-vim'
 call vundle#end()
+
+let g:tsuquyomi_completion_detail = 1
+autocmd FileType typescript setlocal completeopt+=menu,preview
+
+""" vim-gitgutter
+
+let g:gitgutter_enabled = 1
+
+" vim-go
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
 
 let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
 
@@ -159,20 +167,6 @@ let NERDTreeDirArrows = 1
 
 let g:alchemist_tag_map = '<C-]>'
 let g:alchemist_tag_stack_map = '<C-T>'
-
-let g:tagbar_type_rust = {
-    \ 'ctagstype' : 'rust',
-    \ 'kinds' : [
-        \'T:types,type definitions',
-        \'f:functions,function definitions',
-        \'g:enum,enumeration names',
-        \'s:structure names',
-        \'m:modules,module names',
-        \'c:consts,static constants',
-        \'t:traits',
-        \'i:impls,trait implementations',
-    \]
-    \}
 
 let g:tagbar_type_scala = {
     \ 'ctagstype' : 'scala',
@@ -411,13 +405,109 @@ set splitbelow
 set splitright
 
 " configure syntastic syntax checking to check on open as well as save
-let g:syntastic_check_on_open=1
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-let g:syntastic_eruby_ruby_quiet_messages =
+" let g:syntastic_check_on_open=1
+" let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+" let g:syntastic_eruby_ruby_quiet_messages =
     \ {"regex": "possibly useless use of a variable in void context"}
 
 " set ignorecase
 " set tags=./tags,tags;$HOME
 let NERDTreeShowHidden=1
-" set cursorline
-let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
+set cursorline
+" let g:syntastic_html_tidy_ignore_errors = [ '<template> is not recognized!' ]
+
+
+augroup go
+  autocmd!
+
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=8 shiftwidth=8
+
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+  " :GoTest
+  autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
+  " :GoRun
+  autocmd FileType go nmap <leader>r  <Plug>(go-run)
+
+  " :GoDoc
+  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+
+  " :GoCoverageToggle
+  autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+
+  " :GoInfo
+  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+
+  " :GoMetaLinter
+  autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
+
+  " :GoDef but opens in a vertical split
+  autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
+  " :GoDef but opens in a horizontal split
+  autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
+
+  " :GoAlternate  commands :A, :AV, :AS and :AT
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" build_go_files is a custom function that builds or compiles the test file.
+" It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+let g:ycm_key_invoke_completion = '<C-p>'
+let g:ycm_key_detailed_diagnostics = '<leader>d'
+let g:ycm_semantic_triggers =  {
+  \   'c': ['->', '.'],
+  \   'objc': ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  \            're!\[.*\]\s'],
+  \   'ocaml': ['.', '#'],
+  \   'cpp,cuda,objcpp': ['->', '.', '::'],
+  \   'perl': ['->'],
+  \   'php': ['->', '::'],
+  \   'cs,d,elixir,go,groovy,java,javascript,julia,perl6,python,scala,typescript,vb': ['.'],
+  \   'ruby,rust': ['.', '::'],
+  \   'lua': ['.', ':'],
+  \   'erlang': [':'],
+  \ }
+
+let g:ycm_use_clangd = 1
+
+function! s:CustomizeYcmQuickFixWindow()
+  " Move the window to the top of the screen.
+  wincmd K
+  " Set the window height to 5.
+  5wincmd _
+endfunction
+
+autocmd User YcmQuickFixOpened call s:CustomizeYcmQuickFixWindow()
+
+let g:user_emmet_leader_key='<Tab>'
+let g:user_emmet_settings = {
+  \  'javascript.jsx' : {
+    \      'extends' : 'jsx',
+    \  },
+  \}
+
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+
+autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+hi link xmlEndTag xmlTag
+
+let g:syntastic_java_checkers = []
+let g:ycm_min_num_of_chars_for_completion = 1
+" let g:ycm_auto_trigger = 0
+let g:ycm_auto_trigger_delay=0.4 " milliseconds or seconds
+" let g:tsuquyomi_disable_quickfix = 1
