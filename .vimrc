@@ -11,7 +11,7 @@ set t_Co=256
 syntax enable
 set wrap
 
-colorscheme hybrid_material
+colorscheme solarized
 let g:dracula_colorterm = 0
 let g:dracula_italic = 0
 highlight Normal ctermbg=None
@@ -96,17 +96,19 @@ filetype off
 call vundle#begin()
   Plugin 'skywind3000/asyncrun.vim'
   Plugin 'jparise/vim-graphql'
-  Plugin 'Quramy/tsuquyomi'
+  " Plugin 'Quramy/tsuquyomi'
   Plugin 'hashivim/vim-terraform'
   Plugin 'elixir-lang/vim-elixir'
   Plugin 'fatih/vim-go'
   Plugin 'elzr/vim-json'
   Plugin 'pangloss/vim-javascript'
   Plugin 'jiangmiao/auto-pairs'
-  Plugin 'slashmili/alchemist.vim'
+  " Plugin 'slashmili/alchemist.vim'
   Plugin 'rstacruz/sparkup'
   Plugin 'editorconfig/editorconfig-vim'
   Plugin 'VundleVim/Vundle.vim'
+  Plugin 'Shougo/vimproc.vim', {'do' : 'make'}
+  Plugin 'peitalin/vim-jsx-typescript'
   Plugin 'scrooloose/nerdtree'
   Plugin 'majutsushi/tagbar'
   Plugin 'tpope/vim-fugitive'
@@ -119,19 +121,28 @@ call vundle#begin()
   Plugin 'terryma/vim-multiple-cursors'
   Plugin 'mxw/vim-jsx'
   Plugin 'vim-airline/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
   Plugin 'nathanaelkane/vim-indent-guides'
   Plugin 'Valloric/MatchTagAlways'
   Plugin 'w0rp/ale'
   Plugin 'leafgarland/typescript-vim'
+  Plugin 'SirVer/ultisnips'
+  Plugin 'ervandew/supertab'
   Plugin 'Valloric/YouCompleteMe'
   Plugin 'tpope/vim-surround'
   Plugin 'derekwyatt/vim-scala'
   Plugin 'airblade/vim-gitgutter'
   Plugin 'mattn/emmet-vim'
+  Plugin 'rust-lang/rust.vim'
+  Plugin 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 call vundle#end()
 
-let g:tsuquyomi_completion_detail = 1
+syntax enable
+filetype plugin indent on
+
+" let g:tsuquyomi_completion_detail = 1
 autocmd FileType typescript setlocal completeopt+=menu,preview
+" let g:tsuquyomi_use_local_typescript
 
 """ vim-gitgutter
 
@@ -165,8 +176,8 @@ let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
-let g:alchemist_tag_map = '<C-]>'
-let g:alchemist_tag_stack_map = '<C-T>'
+" let g:alchemist_tag_map = '<C-]>'
+" let g:alchemist_tag_stack_map = '<C-T>'
 
 let g:tagbar_type_scala = {
     \ 'ctagstype' : 'scala',
@@ -243,9 +254,9 @@ let g:tagbar_type_javascript = {
 
 nnoremap ,gl :YcmCompleter GoToDeclaration<CR>
 
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_max_num_candidates = 15
-let g:ycm_max_num_identifier_candidates = 10
+let g:ycm_min_num_of_chars_for_completion = 5
+let g:ycm_max_num_candidates = 5
+let g:ycm_max_num_identifier_candidates = 5
 let g:ycm_auto_trigger = 0
 
 let g:ycm_rust_src_path = '/usr/local/rust/rust-1.29.2/src'
@@ -507,7 +518,21 @@ autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --
 hi link xmlEndTag xmlTag
 
 let g:syntastic_java_checkers = []
-let g:ycm_min_num_of_chars_for_completion = 1
-" let g:ycm_auto_trigger = 0
-let g:ycm_auto_trigger_delay=0.4 " milliseconds or seconds
+let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_auto_trigger = 0
+let g:ycm_auto_trigger_delay=0.6 " milliseconds or seconds
 " let g:tsuquyomi_disable_quickfix = 1
+
+au filetype go inoremap <buffer> . .<C-x><C-o>
+
+let g:python3_host_prog = '/opt/homebrew/bin/python3'
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
